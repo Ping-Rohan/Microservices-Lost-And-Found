@@ -1,0 +1,26 @@
+apiVersion: skaffold/v2beta15
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./Infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: rohantiwari706/auth
+      context: Auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: '.'
+    - image: rohantiwari706/items
+      context: Items
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: '.'
